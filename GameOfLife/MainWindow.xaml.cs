@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GameOfLife
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -34,8 +32,12 @@ namespace GameOfLife
             DataContext = vm;
         }
 
-        private void StartClick(object sender, System.EventArgs e)
+        private void ChangeCellState(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            DataGridCell dataGridCell = sender as DataGridCell;
+            Cell cell = (Cell)dataGridCell.DataContext;
+            cell.State = CellState.Alive;
+            //cell.Background = System.Windows.Media.Brushes.Red;
         }
     }
 }

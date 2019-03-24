@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Timers;
+using System.Windows.Input;
 
 namespace GameOfLife
 {
@@ -86,6 +87,18 @@ namespace GameOfLife
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        //public void ChangeState(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (State == CellState.Dead)
+        //    {
+        //        State = CellState.Alive;
+        //    }
+        //    else
+        //    {
+        //        State = CellState.Dead;
+        //    }
+        //}
 
         private bool action;
 

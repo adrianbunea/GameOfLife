@@ -15,7 +15,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <DataGridCell BorderThickness="0">
+                <DataGridCell BorderThickness="0.1" MouseLeftButtonUp="ChangeCellState">
                     <DataGridCell.Background>
                         <SolidColorBrush Color="{Binding Color}"/>
                     </DataGridCell.Background>

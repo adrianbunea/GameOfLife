@@ -5,14 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GameOfLife
 {
@@ -31,8 +23,8 @@ namespace GameOfLife
                 vm.Cells.Add(new Cell { State = i % 29 == 0 ? CellState.Alive : CellState.Dead });
             }
 
-            vm.Cells[3].State = CellState.Alive;
-            vm.Cells[2].State = CellState.Alive;
+            //vm.Cells[3].State = CellState.Alive;
+            //vm.Cells[2].State = CellState.Alive;
             vm.Cells[12].State = CellState.Alive;
             vm.Cells[13].State = CellState.Alive;
             vm.Cells[14].State = CellState.Alive;

@@ -61,12 +61,23 @@ namespace GameOfLife
 
     public class Cell : INotifyPropertyChanged
     {
-        private static Timer Timer = new Timer(2000);
+        private static Timer Timer = new Timer(500);
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            CalculateNextState();
-            Update();
+            if (action == false)
+            {
+                //Timer.Enabled = false;
+                CalculateNextState();
+                //Timer.Enabled = true;
+            }
+            else
+            {
+                //Timer.Enabled = false;
+                Update();
+                //Timer.Enabled = true;
+            }
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -75,6 +86,8 @@ namespace GameOfLife
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private bool action;
 
         private Cell[] neighbors;
         //public Cell Neighbor(Direction direction)
@@ -123,6 +136,7 @@ namespace GameOfLife
 
         private void CalculateNextState()
         {
+            System.Console.WriteLine("Calcul");
             int counter = 0;
             foreach (Cell neighbor in Neighbors)
             {
@@ -133,33 +147,36 @@ namespace GameOfLife
                         counter++;
                     }
                 }
-                
             }
-            if (counter < 2)
+            if (State == CellState.Alive && counter < 2)
             {
                 nextState = CellState.Dead;
             }
-            if (counter > 3)
+            if (State == CellState.Alive && counter > 3)
             {
                 nextState = CellState.Dead;
             }
-            if (this.State == CellState.Alive && (counter == 2 || counter == 3))
+            if (State == CellState.Alive && (counter == 2 || counter == 3))
             {
                 nextState = CellState.Alive;
             }
-            if (this.State == CellState.Alive && counter == 3)
+            if (State == CellState.Dead && counter == 3)
             {
                 nextState = CellState.Alive;
             }
+
+            action = true;
         }
 
         private void Update()
         {
-            this.State = nextState;
+            State = nextState;
+            action = false;
         }
 
         public Cell()
         {
+            action = false;
             State = CellState.Dead;
             neighbors = new Cell[8];
 
@@ -245,7 +262,6 @@ namespace GameOfLife
             foreach (Cell cell in Cells)
             {
                 BindCellNeighbors(cell);
-                System.Console.WriteLine("Cell " + Cells.IndexOf(cell));
             }
         }
     }

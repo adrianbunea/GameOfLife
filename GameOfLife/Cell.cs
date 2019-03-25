@@ -207,6 +207,11 @@ namespace GameOfLife
         {
             Timer.Enabled = true;
         }
+
+        public void StopTimer()
+        {
+            Timer.Enabled = false;
+        }
     }
 
     public class ViewModel

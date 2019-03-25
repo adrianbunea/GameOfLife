@@ -18,14 +18,14 @@ namespace GameOfLife
 
             for (int i = 0; i < 100; i++)
             {
-                vm.Cells.Add(new Cell { State = i % 29 == 0 ? CellState.Alive : CellState.Dead });
+                vm.Cells.Add(new Cell { CurrentState = i % 29 == 0 ? CellState.Alive : CellState.Dead });
             }
 
-            //vm.Cells[3].State = CellState.Alive;
-            //vm.Cells[2].State = CellState.Alive;
-            vm.Cells[12].State = CellState.Alive;
-            vm.Cells[13].State = CellState.Alive;
-            vm.Cells[14].State = CellState.Alive;
+            //vm.Cells[3].CurrentState = CellState.Alive;
+            //vm.Cells[2].CurrentState = CellState.Alive;
+            vm.Cells[12].CurrentState = CellState.Alive;
+            vm.Cells[13].CurrentState = CellState.Alive;
+            vm.Cells[14].CurrentState = CellState.Alive;
 
             vm.BindAllNeighbors();
             vm.Cells[0].ActivateTimer();
@@ -36,7 +36,7 @@ namespace GameOfLife
         {
             DataGridCell dataGridCell = sender as DataGridCell;
             Cell cell = (Cell)dataGridCell.DataContext;
-            cell.State = CellState.Alive;
+            cell.CurrentState = CellState.Alive;
             //cell.Background = System.Windows.Media.Brushes.Red;
         }
     }

@@ -90,13 +90,13 @@ namespace GameOfLife
 
         //public void ChangeState(object sender, MouseButtonEventArgs e)
         //{
-        //    if (State == CellState.Dead)
+        //    if (CurrentState == CellState.Dead)
         //    {
-        //        State = CellState.Alive;
+        //        CurrentState = CellState.Alive;
         //    }
         //    else
         //    {
-        //        State = CellState.Dead;
+        //        CurrentState = CellState.Dead;
         //    }
         //}
 
@@ -107,7 +107,7 @@ namespace GameOfLife
         //{
         //    Cell neighbor = new Cell
         //    {
-        //        State = neighbors[(int)direction].State
+        //        CurrentState = neighbors[(int)direction].CurrentState
         //    };
         //    return neighbor;
         //}
@@ -128,14 +128,14 @@ namespace GameOfLife
             set => neighbors = value;
         }
 
-        private CellState state;
-        public CellState State
+        private CellState currentState;
+        public CellState CurrentState
         {
-            get { return state; }
+            get { return currentState; }
             set
             {
-                state = value;
-                NotifyPropertyChanged("State");
+                currentState = value;
+                NotifyPropertyChanged("CurrentState");
                 NotifyPropertyChanged("Color");
             }
         }
@@ -144,36 +144,36 @@ namespace GameOfLife
 
         public Color Color
         {
-            get { return state == CellState.Dead ? Colors.Black : Colors.White; }
+            get { return currentState == CellState.Dead ? Colors.Black : Colors.White; }
         }
 
         private void CalculateNextState()
         {
-            System.Console.WriteLine("Calcul");
+            Console.WriteLine("Calcul");
             int counter = 0;
             foreach (Cell neighbor in Neighbors)
             {
                 if (neighbor != null)
                 {
-                    if (neighbor.State == CellState.Alive)
+                    if (neighbor.currentState == CellState.Alive)
                     {
                         counter++;
                     }
                 }
             }
-            if (State == CellState.Alive && counter < 2)
+            if (currentState == CellState.Alive && counter < 2)
             {
                 nextState = CellState.Dead;
             }
-            if (State == CellState.Alive && counter > 3)
+            if (currentState == CellState.Alive && counter > 3)
             {
                 nextState = CellState.Dead;
             }
-            if (State == CellState.Alive && (counter == 2 || counter == 3))
+            if (currentState == CellState.Alive && (counter == 2 || counter == 3))
             {
                 nextState = CellState.Alive;
             }
-            if (State == CellState.Dead && counter == 3)
+            if (currentState == CellState.Dead && counter == 3)
             {
                 nextState = CellState.Alive;
             }
@@ -183,14 +183,14 @@ namespace GameOfLife
 
         private void Update()
         {
-            State = nextState;
+            CurrentState = nextState;
             action = false;
         }
 
         public Cell()
         {
             action = false;
-            State = CellState.Dead;
+            CurrentState = CellState.Dead;
             neighbors = new Cell[8];
 
             Timer.Elapsed += OnTimedEvent;
@@ -200,7 +200,7 @@ namespace GameOfLife
 
         public Cell(CellState state) : this()
         {
-            State = state;
+            CurrentState = state;
         }
 
         public void ActivateTimer()

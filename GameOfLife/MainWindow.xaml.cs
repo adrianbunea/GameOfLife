@@ -21,10 +21,7 @@ namespace GameOfLife
                 vm.Cells.Add(new Cell { CurrentState = CellState.Dead });
             }
 
-    
-
             vm.BindAllNeighbors();
-            //vm.Cells[0].ActivateTimer();
             DataContext = vm;
         }
 
@@ -32,24 +29,24 @@ namespace GameOfLife
         {
             DataGridCell dataGridCell = sender as DataGridCell;
             Cell cell = (Cell)dataGridCell.DataContext;
-            cell.CurrentState = CellState.Alive;
+            cell.CurrentState = (CellState)(((int)cell.CurrentState+1)%2);
         }
 
         private void StartSimulation(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            ObservableCollection<Cell> Cells = CellsPanel.ItemsSource as ObservableCollection<Cell>;
-            Cell cell = Cells[0];
+            //ObservableCollection<Cell> Cells = CellsPanel.ItemsSource as ObservableCollection<Cell>;
+            ViewModel vm = DataContext as ViewModel;
 
             if ((string)button.Content == "Start")
             { 
                 
-                cell.ActivateTimer();
+                vm.ActivateTimer();
                 button.Content = "Stop";
             }
             else
             {
-                cell.StopTimer();
+                vm.StopTimer();
                 button.Content = "Start";
             }
         }

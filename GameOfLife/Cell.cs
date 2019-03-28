@@ -22,7 +22,6 @@ namespace GameOfLife
         NW, N, NE, E, SE, S, SW, W
     }
 
-
     struct Coordinate
     {
         public int X;
@@ -62,45 +61,12 @@ namespace GameOfLife
 
     public class Cell : INotifyPropertyChanged
     {
-        private static Timer Timer = new Timer(500);
-
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            if (action == false)
-            {
-                //Timer.Enabled = false;
-                CalculateNextState();
-                //Timer.Enabled = true;
-            }
-            else
-            {
-                //Timer.Enabled = false;
-                Update();
-                //Timer.Enabled = true;
-            }
-            
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //public void ChangeState(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (CurrentState == CellState.Dead)
-        //    {
-        //        CurrentState = CellState.Alive;
-        //    }
-        //    else
-        //    {
-        //        CurrentState = CellState.Dead;
-        //    }
-        //}
-
-        private bool action;
 
         private Cell[] neighbors;
         //public Cell Neighbor(Direction direction)
@@ -147,9 +113,8 @@ namespace GameOfLife
             get { return currentState == CellState.Dead ? Colors.Black : Colors.White; }
         }
 
-        private void CalculateNextState()
+        public void CalculateNextState()
         {
-            Console.WriteLine("Calcul");
             int counter = 0;
             foreach (Cell neighbor in Neighbors)
             {
@@ -165,42 +130,69 @@ namespace GameOfLife
             {
                 nextState = CellState.Dead;
             }
-            if (currentState == CellState.Alive && counter > 3)
+            else if (currentState == CellState.Alive && counter > 3)
             {
                 nextState = CellState.Dead;
             }
-            if (currentState == CellState.Alive && (counter == 2 || counter == 3))
+            else if (currentState == CellState.Alive && (counter == 2 || counter == 3))
             {
                 nextState = CellState.Alive;
             }
-            if (currentState == CellState.Dead && counter == 3)
+            else if (currentState == CellState.Dead && counter == 3)
             {
                 nextState = CellState.Alive;
             }
-
-            action = true;
+            else
+            {
+                nextState = CellState.Dead;
+            }
+            
         }
 
-        private void Update()
+        public void Update()
         {
             CurrentState = nextState;
-            action = false;
         }
 
         public Cell()
         {
-            action = false;
             CurrentState = CellState.Dead;
             neighbors = new Cell[8];
-
-            Timer.Elapsed += OnTimedEvent;
-            Timer.Enabled = false;
-            Timer.AutoReset = true;
         }
 
         public Cell(CellState state) : this()
         {
             CurrentState = state;
+        } 
+    }
+
+    public class ViewModel
+    {
+        public ObservableCollection<Cell> Cells { get; } = new ObservableCollection<Cell>();
+        public int GridSize;
+
+        private static Timer Timer = new Timer
+        {
+            Interval = 500,
+            AutoReset = true,
+            Enabled = false
+        };
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            //Timer.Enabled = false;
+            foreach (Cell cell in Cells)
+            {
+                cell.CalculateNextState();
+            }
+            //Timer.Enabled = true;
+
+            //Timer.Enabled = false;
+            foreach (Cell cell in Cells)
+            {
+                cell.Update();
+            }
+            //Timer.Enabled = true;
         }
 
         public void ActivateTimer()
@@ -212,11 +204,6 @@ namespace GameOfLife
         {
             Timer.Enabled = false;
         }
-    }
-
-    public class ViewModel
-    {
-        public ObservableCollection<Cell> Cells { get; } = new ObservableCollection<Cell>();
 
         private int FindCellIndex(int x, int y)
         {
@@ -281,6 +268,11 @@ namespace GameOfLife
             {
                 BindCellNeighbors(cell);
             }
+        }
+
+        public ViewModel()
+        {
+            Timer.Elapsed += OnTimedEvent;
         }
     }
 }

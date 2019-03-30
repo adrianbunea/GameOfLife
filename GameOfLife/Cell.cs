@@ -166,14 +166,35 @@ namespace GameOfLife
         } 
     }
 
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public ObservableCollection<Cell> Cells { get; } = new ObservableCollection<Cell>();
-        public int GridSize;
+
+        private int gridSize;
+        public int GridSize
+        {
+            get
+            {
+                return gridSize;
+            }
+
+            set
+            {
+                gridSize = value;
+                NotifyPropertyChanged("GridSize");
+            }
+        }
 
         private static Timer Timer = new Timer
         {
-            Interval = 500,
+            Interval = 250,
             AutoReset = true,
             Enabled = false
         };
@@ -273,6 +294,7 @@ namespace GameOfLife
         public ViewModel()
         {
             Timer.Elapsed += OnTimedEvent;
+            GridSize = 16;
         }
     }
 }

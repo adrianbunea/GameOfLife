@@ -3,20 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:GameOfLife"
+        xmlns:wpfx="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600" Background="#FF363636">
+        Title="MainWindow" Height="750" Width="600" Background="#FF363636">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="480*"/>
-            <RowDefinition Height="90*"/>
+            <RowDefinition Height="600"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ItemsControl Name="CellsPanel"  ItemsSource="{Binding Cells}" Height="450" Width="450" Grid.Row="0">
+        <ItemsControl Name="CellsPanel"  ItemsSource="{Binding Cells}" HorizontalContentAlignment="Stretch" Grid.Row="0">
             <ItemsControl.ItemsPanel >
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="10"/>
+                    <UniformGrid Columns="{Binding vm.GridSize}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -25,7 +27,6 @@
                         <DataGridCell.Background>
                             <SolidColorBrush Color="{Binding Color}"/>
                         </DataGridCell.Background>
-                        <!-- optional child element here -->
                     </DataGridCell>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -33,11 +34,13 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="480*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="400*"/>
                 <ColumnDefinition Width="90*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Start" Grid.Column="1" Margin="10 20 10 20" Padding="10 10 10 10" Click="StartSimulation"/>
+            <xctk:IntegerUpDown Name="UpDown" Grid.Column="0" Margin="10 10 10 10" Width="70" Height="50" FontSize="24" Value="{Binding GridSize}" ValueChanged="GridSizeChange"/>
+            <Button Content="Start" Grid.Column="2" Margin="10 10 10 10" Padding="10 10 10 10" Click="StartSimulation"/>
         </Grid>
     </Grid>
 </Window>

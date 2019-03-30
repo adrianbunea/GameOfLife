@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Xceed.Wpf.Toolkit;
 
 namespace GameOfLife
 {
@@ -15,10 +16,11 @@ namespace GameOfLife
         {
             InitializeComponent();
             var vm = new ViewModel();
+            int cellCount = vm.GridSize * vm.GridSize;
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < cellCount; i++)
             {
-                vm.Cells.Add(new Cell { CurrentState = CellState.Dead });
+                vm.Cells.Add(new Cell());
             }
 
             vm.BindAllNeighbors();
@@ -39,16 +41,31 @@ namespace GameOfLife
             ViewModel vm = DataContext as ViewModel;
 
             if ((string)button.Content == "Start")
-            { 
-                
+            {
+                UpDown.IsEnabled = false;
                 vm.ActivateTimer();
                 button.Content = "Stop";
             }
             else
             {
+                UpDown.IsEnabled = true;
                 vm.StopTimer();
                 button.Content = "Start";
             }
+        }
+
+        private void GridSizeChange(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            ViewModel vm = DataContext as ViewModel;    
+
+            int cellCount = vm.GridSize * vm.GridSize;
+            vm.Cells.Clear();
+            for (int i = 0; i < cellCount; i++)
+            {
+                vm.Cells.Add(new Cell());
+            }
+
+            vm.BindAllNeighbors();
         }
     }
 }

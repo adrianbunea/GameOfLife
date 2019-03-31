@@ -16,9 +16,8 @@ namespace GameOfLife
         {
             InitializeComponent();
             var vm = new ViewModel();
-            int cellCount = vm.GridSize * vm.GridSize;
 
-            for (int i = 0; i < cellCount; i++)
+            for (int i = 0; i < vm.CellCount; i++)
             {
                 vm.Cells.Add(new Cell());
             }
@@ -42,13 +41,15 @@ namespace GameOfLife
 
             if ((string)button.Content == "Start")
             {
-                UpDown.IsEnabled = false;
+                RowsUpDown.IsEnabled = false;
+                ColumnsUpDown.IsEnabled = false;
                 vm.ActivateTimer();
                 button.Content = "Stop";
             }
             else
             {
-                UpDown.IsEnabled = true;
+                RowsUpDown.IsEnabled = true;
+                ColumnsUpDown.IsEnabled = true;
                 vm.StopTimer();
                 button.Content = "Start";
             }
@@ -58,9 +59,8 @@ namespace GameOfLife
         {
             ViewModel vm = DataContext as ViewModel;    
 
-            int cellCount = vm.GridSize * vm.GridSize;
             vm.Cells.Clear();
-            for (int i = 0; i < cellCount; i++)
+            for (int i = 0; i < vm.CellCount; i++)
             {
                 vm.Cells.Add(new Cell());
             }

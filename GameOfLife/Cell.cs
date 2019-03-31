@@ -27,6 +27,18 @@ namespace GameOfLife
         public int X;
         public int Y;
 
+        public static Coordinate[] directions = new Coordinate[8]
+        {
+            new Coordinate(-1, -1), // NW
+            new Coordinate( 0, -1), // N
+            new Coordinate(+1, -1), // NE
+            new Coordinate(+1,  0), // E
+            new Coordinate(+1, +1), // SE
+            new Coordinate( 0, +1), // S
+            new Coordinate(-1, +1), // SW
+            new Coordinate(-1,  0)  // W
+        };
+
         //public int X
         //{
         //    get => x;
@@ -177,20 +189,37 @@ namespace GameOfLife
 
         public ObservableCollection<Cell> Cells { get; } = new ObservableCollection<Cell>();
 
-        private int gridSize;
-        public int GridSize
+        private int gridRows;
+        public int GridRows
         {
             get
             {
-                return gridSize;
+                return gridRows;
             }
 
             set
             {
-                gridSize = value;
-                NotifyPropertyChanged("GridSize");
+                gridRows = value;
+                NotifyPropertyChanged("GridRows");
             }
         }
+
+        private int gridColumns;
+        public int GridColumns
+        {
+            get
+            {
+                return gridColumns;
+            }
+
+            set
+            {
+                gridColumns = value;
+                NotifyPropertyChanged("GridColumns");
+            }
+        }
+
+        public int CellCount => gridRows * gridColumns;
 
         private static Timer Timer = new Timer
         {
@@ -228,45 +257,33 @@ namespace GameOfLife
 
         private int FindCellIndex(int x, int y)
         {
-            int gridSize = (int)Math.Sqrt(Cells.Count);
-            if (x < 0 || y < 0 || x >= gridSize || y >= gridSize)
+            //int gridSize = (int)Math.Sqrt(Cells.Count);
+            if (x < 0 || y < 0 || x >= gridColumns || y >= gridRows)
             {
                 return -1;
             }
-            int index = y * gridSize + x;
+            int index = y * gridColumns + x;
             return index;
         }
 
         private Coordinate FindCellCoordinates(Cell cell)
         {
             Coordinate coordinate = new Coordinate();
-            int gridSize = (int)Math.Sqrt(Cells.Count); //Trebuie sa am mereu valori intregi, deci numarul de celule e mereu patrat perfect
-            coordinate.X = Cells.IndexOf(cell) % gridSize;
-            coordinate.Y = Cells.IndexOf(cell) / gridSize;
+            coordinate.X = Cells.IndexOf(cell) % GridRows;
+            coordinate.Y = Cells.IndexOf(cell) / GridColumns;
             return coordinate;
         }
 
         private void BindCellNeighbors(Cell cell)
-        {
-            Coordinate[] directions = new Coordinate[8]
-            {
-                new Coordinate(-1, -1), // NW
-                new Coordinate( 0, -1), // N
-                new Coordinate(+1, -1), // NE
-                new Coordinate(+1,  0), // E
-                new Coordinate(+1, +1), // SE
-                new Coordinate( 0, +1), // S
-                new Coordinate(-1, +1), // SW
-                new Coordinate(-1,  0)  // W
-        };
+        { 
             Coordinate cellCoordinate = FindCellCoordinates(cell);
      
             Cell[] neighbors = new Cell[8];
 
             for (int i = 0; i < 8; i++)
             {
-                int neighborX = cellCoordinate.X + directions[i].X;
-                int neighborY = cellCoordinate.Y + directions[i].Y;
+                int neighborX = cellCoordinate.X + Coordinate.directions[i].X;
+                int neighborY = cellCoordinate.Y + Coordinate.directions[i].Y;
                 Cell neighbor = new Cell();
                 int index = FindCellIndex(neighborX, neighborY);
                 if (index < 0)
@@ -294,7 +311,8 @@ namespace GameOfLife
         public ViewModel()
         {
             Timer.Elapsed += OnTimedEvent;
-            GridSize = 16;
+            GridRows = 16;
+            GridColumns = 16;        
         }
     }
 }

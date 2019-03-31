@@ -194,7 +194,7 @@ namespace GameOfLife
 
         private static Timer Timer = new Timer
         {
-            Interval = 250,
+            Interval = 100,
             AutoReset = true,
             Enabled = false
         };

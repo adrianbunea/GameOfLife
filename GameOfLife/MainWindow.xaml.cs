@@ -84,7 +84,7 @@ namespace GameOfLife
             if (rows > columns)
             {
                 int difference = rows - columns;
-                string filler = new string('.', difference);
+                string filler = new string('0', difference);
                 
                 for (int i = 0; i < rows; i++)
                 {
@@ -99,20 +99,22 @@ namespace GameOfLife
                 List<string> temp = lines.ToList<string>();
                 for (int i = 0; i < difference; i++)
                 {
-                    temp.Add(new string('.', columns));
+                    temp.Add(new string('0', columns));
                 }
 
                 lines = temp.ToArray<string>();
             }
 
-            List<char> cellStates = new List<char>();
+            List<char> cellStatesAscii = new List<char>();
             foreach (string line in lines)
             {
                 for (int i = 0; i < line.Length; i++) 
                 {
-                    cellStates.Add(line[i]);
+                    cellStatesAscii.Add(line[i]);
                 }
             }
+
+            List<CellState> cellStates = cellStatesAscii.ConvertAll(state => (CellState)state-48);
 
             ViewModel vm = DataContext as ViewModel;
             vm.GridColumns = (int)Math.Sqrt(cellStates.Count);
@@ -121,7 +123,7 @@ namespace GameOfLife
             vm.Cells.Clear();
             for (int i = 0; i < vm.CellCount; i++)
             {
-                vm.Cells.Add(new Cell { CurrentState = cellStates[i] == 'O' ? CellState.Alive : CellState.Dead });
+                vm.Cells.Add(new Cell { CurrentState = cellStates[i]});
             }
 
             vm.BindAllNeighbors();

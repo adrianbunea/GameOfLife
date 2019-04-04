@@ -190,7 +190,7 @@ namespace GameOfLife
 
         private static Timer Timer = new Timer
         {
-            Interval = 250,
+            Interval = 250, 
             AutoReset = true,
             Enabled = false
         };
@@ -222,6 +222,19 @@ namespace GameOfLife
             Timer.Enabled = false;
         }
 
+        public double Interval
+        {
+            get
+            {
+                return 1000/Timer.Interval;
+            }
+            set
+            {
+                Timer.Interval = 1000/value;
+                NotifyPropertyChanged("Interval");
+            }
+        }
+
         private int FindCellIndex(int x, int y)
         {
             if (x < 0 || y < 0 || x >= gridColumns || y >= gridRows)
@@ -234,9 +247,11 @@ namespace GameOfLife
 
         private Coordinate FindCellCoordinates(Cell cell)
         {
-            Coordinate coordinate = new Coordinate();
-            coordinate.X = Cells.IndexOf(cell) % GridRows;
-            coordinate.Y = Cells.IndexOf(cell) / GridColumns;
+            Coordinate coordinate = new Coordinate
+            {
+                X = Cells.IndexOf(cell) % GridRows,
+                Y = Cells.IndexOf(cell) / GridColumns
+            };
             return coordinate;
         }
 

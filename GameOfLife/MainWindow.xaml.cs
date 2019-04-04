@@ -44,6 +44,7 @@ namespace GameOfLife
             {
                 RowsUpDown.IsEnabled = false;
                 ColumnsUpDown.IsEnabled = false;
+                Menu.IsEnabled = false;
                 vm.ActivateTimer();
                 button.Content = "Stop";
             }
@@ -51,6 +52,7 @@ namespace GameOfLife
             {
                 RowsUpDown.IsEnabled = true;
                 ColumnsUpDown.IsEnabled = true;
+                Menu.IsEnabled = true;
                 vm.StopTimer();
                 button.Content = "Start";
             }
@@ -142,5 +144,6 @@ namespace GameOfLife
 
             vm.BindAllNeighbors();
         }
+
     }
 }

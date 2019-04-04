@@ -39,26 +39,6 @@ namespace GameOfLife
             new Coordinate(-1,  0)  // W
         };
 
-        //public int X
-        //{
-        //    get => x;
-        //    set
-        //    {
-        //        if (x < 0) { throw new Exception("X coordinate lower than 0!"); }
-        //        else { x = value; }
-        //    }
-        //}
-
-        //public int Y
-        //{
-        //    get => y;
-        //    set
-        //    {
-        //        if (y < 0) { throw new Exception("Y coordinate lower than 0!"); }
-        //        else { y = value; }
-        //    }
-        //}
-
         public Coordinate(int x, int y)
         {
             //if (x < 0) { throw new Exception("X coordinate lower than 0!"); }
@@ -81,19 +61,6 @@ namespace GameOfLife
         }
 
         private Cell[] neighbors;
-        //public Cell Neighbor(Direction direction)
-        //{
-        //    Cell neighbor = new Cell
-        //    {
-        //        CurrentState = neighbors[(int)direction].CurrentState
-        //    };
-        //    return neighbor;
-        //}
-
-        //public void SetNeighbor(Direction direction)
-        //{
-
-        //}
 
         public Cell[] Neighbors
         {
@@ -223,7 +190,7 @@ namespace GameOfLife
 
         private static Timer Timer = new Timer
         {
-            Interval = 100,
+            Interval = 250,
             AutoReset = true,
             Enabled = false
         };
@@ -257,7 +224,6 @@ namespace GameOfLife
 
         private int FindCellIndex(int x, int y)
         {
-            //int gridSize = (int)Math.Sqrt(Cells.Count);
             if (x < 0 || y < 0 || x >= gridColumns || y >= gridRows)
             {
                 return -1;

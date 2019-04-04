@@ -18,21 +18,22 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="Pattern">
-                <MenuItem Header="Glider Gun"/>
-                <MenuItem Header="Pulsar"/>
-                <MenuItem Header="LWSS"/>
-                <MenuItem Header="Butterfly"/>
-                <MenuItem Header="Shipmaker"/>
-                <MenuItem Header="Random"/>
+                <MenuItem Header="GliderGun" Click="PatternSelect"/>
+                <MenuItem Header="Pulsar" Click="PatternSelect"/>
+                <MenuItem Header="LWSS" Click="PatternSelect"/>
+                <MenuItem Header="Butterfly" Click="PatternSelect"/>
+                <MenuItem Header="Shipmaker" Click="PatternSelect"/>
+                <MenuItem Header="Random" Click="RandomPatternSelect"/>
             </MenuItem>
         </Menu>
         
-        <ItemsControl Name="CellsPanel"  ItemsSource="{Binding Cells}" HorizontalContentAlignment="Stretch" Grid.Row="1">
-            <ItemsControl.ItemsPanel >
+        <ItemsControl ItemsSource="{Binding Cells}"  Grid.Row="1">
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="{Binding GridColumns}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DataGridCell BorderThickness="0.1" MouseLeftButtonUp="ChangeCellState">

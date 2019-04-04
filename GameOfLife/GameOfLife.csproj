@@ -111,5 +111,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Patterns\Pulsar.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Patterns\GliderGun.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Patterns\LWSS.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Patterns\Shipmaker.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Patterns\Butterfly.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

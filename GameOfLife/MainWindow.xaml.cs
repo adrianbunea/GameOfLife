@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Xceed.Wpf.Toolkit;
 using System.IO;
 
 namespace GameOfLife
@@ -24,7 +20,6 @@ namespace GameOfLife
             }
 
             vm.BindAllNeighbors();
-
             DataContext = vm;
         }
 
@@ -76,36 +71,9 @@ namespace GameOfLife
             MenuItem menuItem = sender as MenuItem;
             string patternName = menuItem.Header.ToString();
             string path = String.Format("..\\..\\Patterns\\{0}.txt", patternName);
-            
-
             string[] lines = File.ReadAllLines(path);
 
-            int rows = lines.Length;
-            int columns = lines[0].Length;
-
-            if (rows > columns)
-            {
-                int difference = rows - columns;
-                string filler = new string('0', difference);
-                
-                for (int i = 0; i < rows; i++)
-                {
-                    lines[i] += filler;
-                }
-            }
-
-            if (rows < columns)
-            {
-                int difference = columns - rows;
-
-                List<string> temp = lines.ToList<string>();
-                for (int i = 0; i < difference; i++)
-                {
-                    temp.Add(new string('0', columns));
-                }
-
-                lines = temp.ToArray<string>();
-            }
+            EqualizeRowsAndColumns(ref lines);
 
             List<char> cellStatesAscii = new List<char>();
             foreach (string line in lines)
@@ -145,5 +113,34 @@ namespace GameOfLife
             vm.BindAllNeighbors();
         }
 
+        private void EqualizeRowsAndColumns(ref String[] array)
+        {
+            int rows = array.Length;
+            int columns = array[0].Length;
+
+            if (rows > columns)
+            {
+                int difference = rows - columns;
+                string filler = new string('0', difference);
+
+                for (int i = 0; i < rows; i++)
+                {
+                    array[i] += filler;
+                }
+            }
+
+            if (rows < columns)
+            {
+                int difference = columns - rows;
+
+                List<string> temp = array.ToList<string>();
+                for (int i = 0; i < difference; i++)
+                {
+                    temp.Add(new string('0', columns));
+                }
+
+                array = temp.ToArray<string>();
+            }
+        }
     }
 }
